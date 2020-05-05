@@ -20,5 +20,15 @@ pipeline
         }   
       }
     }
+    stage ('Build the package')
+    {
+      steps
+      {
+        withMaven(jdk: 'Java', maven: 'Maven')
+        {
+          sh 'mvn package'
+        }   
+      }
+    }
   }
 }
