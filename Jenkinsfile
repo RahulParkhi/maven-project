@@ -30,5 +30,12 @@ pipeline
         }   
       }
     }
+    stage ('Deploy the artifact')
+    {
+      steps
+      {
+        deploy adapters: [tomcat9(credentialsId: 'tomcatadmin', path: '', url: 'http://54.144.78.248:8080/')], contextPath: null, war: '**/*.war'
+      }
+    }
   }
 }
