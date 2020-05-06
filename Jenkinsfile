@@ -34,7 +34,12 @@ pipeline
     {
       steps
       {
-        deploy adapters: [tomcat9(credentialsId: 'tomcatadmin', path: '', url: 'http://54.144.78.248:8080/')], contextPath: null, war: '**/*.war'
+        // Using the username and passwd methode -
+        //deploy adapters: [tomcat9(credentialsId: 'tomcatadmin', path: '', url: 'http://54.144.78.248:8080/')], contextPath: null, war: '**/*.war'
+        sshagent(['TomcatSSH'])
+        {
+          sh 'scp -o StrictHostKeyChecking=no -l */target/*.war ec2-user@172.31.89.0:/var/lib/tomcat/webapps'
+        }
       }
     }
   }
