@@ -38,8 +38,7 @@ pipeline
         //deploy adapters: [tomcat9(credentialsId: 'tomcatadmin', path: '', url: 'http://54.144.78.248:8080/')], contextPath: null, war: '**/*.war'
         sshagent(['TomcatSSH'])
         {
-          //sh 'scp -o StrictHostKeyChecking=no */target/*.war ec2-user@172.31.89.0:/opt/apache-tomcat-9.0.34/webapps'
-          sh 'scp */target/*.war ec2-user@172.31.89.0:/opt/apache-tomcat-9.0.34/webapps'
+          sh 'scp -o StrictHostKeyChecking=no */target/*.war ec2-user@172.31.89.0:/opt/apache-tomcat-9.0.34/webapps'
         }
       }
     }
