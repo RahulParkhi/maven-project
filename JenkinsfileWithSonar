@@ -1,0 +1,23 @@
+Pipeline
+{
+agent any
+stages
+{
+  stage ('SCM Checkout')
+  {
+    steps
+    {
+      
+    }
+  }
+  stage ('Invoke maven goal with Sonarqube')
+  {
+    steps
+    {
+    withSonarQubeEnv(credentialsId: 'JenkinsSonarInt') {
+    // some block
+    }
+  }
+}
+}
+      
