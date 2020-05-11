@@ -14,7 +14,7 @@ stages
   {
     steps
     {
-      withSonarQubeEnv('JenkinsSonarInt')
+      withSonarQubeEnv('mySonar')
       {
         withMaven(jdk: 'Java', maven: 'Maven')
         {
