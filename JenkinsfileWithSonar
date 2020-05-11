@@ -14,7 +14,7 @@ stages
   {
     steps
     {
-      withSonarQubeEnv(credentialsId: '70276e8740a7f3c0ccd8f1b80b0ac1c6c4e361ab', installationName:'JenkinsSonarInt')
+      withSonarQubeEnv('JenkinsSonarInt')
       {
         withMaven(jdk: 'Java', maven: 'Maven')
         {
