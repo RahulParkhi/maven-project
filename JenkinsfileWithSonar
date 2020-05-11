@@ -14,7 +14,7 @@ stages
   {
     steps
     {
-      withSonarQubeEnv('mySonar')
+      withSonarQubeEnv(installationName:'mySonar')
       {
         withMaven(jdk: 'Java', maven: 'Maven')
         {
