@@ -16,11 +16,12 @@ stages
     {
       withSonarQubeEnv(credentialsId: 'JenkinsSonarInt')
       {
-        withMaven(jdk: 'Java', maven: 'Maven') {
+        withMaven(jdk: 'Java', maven: 'Maven')
+        {
           sh 'mvn clean sonar:sonar package'
+        }
       }
     }
    }
  }
 }
-      
