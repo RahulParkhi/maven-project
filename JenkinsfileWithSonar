@@ -7,7 +7,7 @@ stages
   {
     steps
     {
-      
+      git branch: 'master', url: 'https://github.com/RahulParkhi/maven-project.git'
     }
   }
   stage ('Invoke maven goal with Sonarqube')
