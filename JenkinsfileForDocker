@@ -7,6 +7,7 @@ node {
 	{
         sh "git branch -r"
         sh "git checkout ci-cd-with-docker"
+	sh "git pull origin ci-cd-with-docker"
   }
 	stage ('create an application package')
 	{
