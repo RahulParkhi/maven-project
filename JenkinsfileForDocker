@@ -1,4 +1,4 @@
-node {
+node{
     stage ('scm checkout')
 	{
 		git 'https://github.com/RahulParkhi/maven-project.git'
@@ -7,14 +7,22 @@ node {
 	{
         sh "git branch -r"
         sh "git checkout ci-cd-with-docker"
-	sh "git pull origin ci-cd-with-docker"
-  }
+    }
 	stage ('create an application package')
 	{
        sh label: '', script: 'mvn clean package '
-  }
+    }
 	stage ('docker image build')
 	{
 	   sh 'docker build -t rapsdock/my-app:1.0.0 .'
+	
+	}
+	stage ('Push Docker image to DockerHub')
+	{
+		withCredentials([usernamePassword(credentialsId: 'Jenkins-to-DockerHub', passwordVariable: 'DockerHubPasswd', usernameVariable: 'DockerHubUser')])
+		{
+			sh "docker login -u ${DockerHubUser} -p ${DockerHubPasswd}"
+		}
+		sh 'docker push rapsdock/my-app:1.0.0'
 	}
 }
