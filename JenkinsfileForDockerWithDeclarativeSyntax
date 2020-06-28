@@ -60,7 +60,8 @@ pipeline
 						def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app rapsdock/my-private-app:1.0.0'
 						sshagent(['deploy-to-dev-docker'])
 						{
-							sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.63.162 '${dockerlogin}; ${dockerRun}'"
+							sh "ssh ec2-user@172.31.63.162 ${dockerlogin}"
+							sh "ssh ec2-user@172.31.63.162 ${dockerRun}"
 						}
 					}
 				}
