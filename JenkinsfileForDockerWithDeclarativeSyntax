@@ -1,0 +1,64 @@
+pipeline
+{
+	agent any
+	stages
+	{
+		stage ('scm checkout')
+		{
+			steps 
+			{
+				git 'https://github.com/RahulParkhi/maven-project.git'
+			}
+		}
+		
+		stage('Checkout to different branch')
+		{
+			steps
+			{
+				sh "git branch -r"
+				sh "git checkout ci-cd-with-docker"
+			}
+		}
+		
+		stage ('create an application package')
+		{
+			steps
+			{
+				sh label: '', script: 'mvn clean package '
+			}
+		}
+		
+		stage ('docker image build')
+		{
+			steps
+			{
+				sh 'docker build -t rapsdock/my-app:1.0.0 .'
+			}
+		}
+		
+		stage ('Push Docker image to DockerHub')
+		{
+			steps
+			{
+				withCredentials([string(credentialsId: 'DockerHubID', variable: 'DockerHubUser') , (credentialsId: 'DockerHubPasswd', variable: 'DockerHubPasswd')])
+				{
+					sh "docker login -u ${DockerHubUser} -p ${DockerHubPasswd}"
+				}
+				sh 'docker push rapsdock/my-app:1.0.0'
+			}
+		}
+		
+		stage ('Deploy to Dev')
+		{
+			steps
+			{
+				def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app rapsdock/my-app:1.0.0'
+				sshagent(['deploy-to-dev-docker'])
+				{
+					sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.63.162 ${dockerRun}"
+				}
+			}
+		}	
+	}
+}
+	
