@@ -61,7 +61,7 @@ pipeline
 
 						sshagent(['K8sMaster'])
 						{
-							sh "scp -o StrictHostKeyChecking=no mytomcat-manifest.yml root@172.31.71.222:~/home/
+							sh "scp -o StrictHostKeyChecking=no mytomcat-manifest.yml root@172.31.71.222:~/home/"
 
 							sh "ssh root@172.31.71.222 ${dockerlogin}"
 
