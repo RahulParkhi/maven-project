@@ -17,6 +17,7 @@ pipeline
 			{
 				sh "git branch -r"
 				sh "git checkout ci-cd-with-k8s"
+				sh "git pull origin ci-cd-with-k8s"
 			}
 		}
 		
