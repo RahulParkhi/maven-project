@@ -1,0 +1,55 @@
+pipeline
+{
+	agent any
+	stages
+	{
+		stage ('scm checkout')
+		{
+			steps 
+			{
+				git 'https://github.com/RahulParkhi/maven-project.git'
+			}
+		}
+		
+		stage('Checkout to different branch')
+		{
+			steps
+			{
+				sh "git branch -r"
+				sh "git checkout ci-cd-with-k8s"
+			}
+		}
+		
+		stage ('create an application package')
+		{
+			steps
+			{
+				sh label: '', script: 'mvn clean package '
+			}
+		}
+		
+		stage ('docker image build')
+		{
+			steps
+			{
+				sh 'docker build -t rapsdock/my-private-app:1.0.0 .'
+			}
+		}
+		
+		stage ('Push Docker image to private Docker Registry')
+		{
+			steps
+			{
+				//TODO
+			}
+		}
+		
+		stage ('Deploy to K8s Cluster')
+		{
+			steps
+			{
+				//TODO
+			}
+		}	
+	}
+}
