@@ -11,10 +11,10 @@ spec:
     - name: mytomcat
       image: rapsdock/my-private-app:2.0.0
       imagePullPolicy: Always
-      imagePullSecrets:
-        - name: myregistrykey
       ports:
         - containerPort: 8080
+  imagePullSecrets:
+    - name: myregistrykey
 ---
 apiVersion: v1
 kind: Service
