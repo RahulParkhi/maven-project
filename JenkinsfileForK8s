@@ -58,7 +58,7 @@ pipeline
 					withCredentials([string(credentialsId: 'DockerHubID', variable: 'DockerHubUser') , string(credentialsId: 'DockerHubPasswd', variable: 'DockerHubPasswd')])
 					{
 						def dockerlogin = 'docker login -u ${DockerHubUser} -p ${DockerHubPasswd}'
-						def k8scmd = 'kubectl apply -f .'
+						def k8scmd = 'kubectl apply -f mytomcat-manifest.yml'
 
 						sshagent(['K8sMaster'])
 						{
