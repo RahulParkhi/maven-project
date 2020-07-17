@@ -58,6 +58,7 @@ pipeline
 					withCredentials([string(credentialsId: 'DockerHubID', variable: 'DockerHubUser') , string(credentialsId: 'DockerHubPasswd', variable: 'DockerHubPasswd')])
 					{
 						def dockerlogin = 'docker login -u ${DockerHubUser} -p ${DockerHubPasswd}'
+						def k8ssecret = 'kubectl create secret docker-registry myregistrykey --docker-server="https://index.docker.io/v1/" --docker-username=${DockerHubUser} --docker-password=${DockerHubPasswd} --docker-email="rahulrparkhi@gmail.com"'
 						def k8scmd = 'kubectl apply -f mytomcat-manifest.yml'
 
 						sshagent(['K8sMaster'])
@@ -65,6 +66,8 @@ pipeline
 							sh "scp -o StrictHostKeyChecking=no mytomcat-manifest.yml root@172.31.71.222:~/"
 
 							sh "ssh root@172.31.71.222 ${dockerlogin}"
+							
+							sh "ssh root@172.31.71.222 ${k8ssecret}"
 
 							sh "ssh root@172.31.71.222 ${k8scmd}"
 						}
