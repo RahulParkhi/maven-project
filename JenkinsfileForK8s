@@ -32,7 +32,7 @@ pipeline
 		{
 			steps
 			{
-				sh 'docker build -t rapsdock/my-private-app:1.0.0 .'
+				sh 'docker build -t rapsdock/my-private-app:2.0.0 .'
 			}
 		}
 		
@@ -40,7 +40,11 @@ pipeline
 		{
 			steps
 			{
-				//TODO
+				withCredentials([string(credentialsId: 'DockerHubID', variable: 'DockerHubUser') , string(credentialsId: 'DockerHubPasswd', variable: 'DockerHubPasswd')])
+				{
+					sh "docker login -u ${DockerHubUser} -p ${DockerHubPasswd}"
+				}
+				sh 'docker push rapsdock/my-private-app:2.0.0'
 			}
 		}
 		
@@ -48,7 +52,19 @@ pipeline
 		{
 			steps
 			{
-				//TODO
+				script
+				{
+					withCredentials([string(credentialsId: 'DockerHubID', variable: 'DockerHubUser') , string(credentialsId: 'DockerHubPasswd', variable: 'DockerHubPasswd')])
+					{
+						def dockerlogin = 'docker login -u ${DockerHubUser} -p ${DockerHubPasswd}'
+						def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app2 rapsdock/my-private-app:1.0.0'
+						sshagent(['deploy-to-dev-docker'])
+						{
+							sh "ssh ec2-user@172.31.63.162 ${dockerlogin}"
+							sh "ssh ec2-user@172.31.63.162 ${dockerRun}"
+						}
+					}
+				}
 			}
 		}	
 	}
