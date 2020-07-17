@@ -27,4 +27,4 @@ spec:
     tier: front-end
   ports:
     - port: 8080
-  type: LoadBalancer
+  type: NodePort
